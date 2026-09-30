@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sherpa Planner"
+  short_description: "Apple Calendar와 Reminders를 안전하게 관리"
+  default_prompt: "Use $planner to create a natural Korean Calendar Event and verify the native readback."

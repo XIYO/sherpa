@@ -1,0 +1,16 @@
+{
+  "description": "Claude Code adapter. On session start, run the plugin's own CLI guard once and speak only when the installed Sherpa CLI does not satisfy cli-contract.json. The guard is the single authority on that judgement; this hook only moves the moment of telling earlier.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

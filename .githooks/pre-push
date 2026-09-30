@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Validate each pushed commit in a clean checkout, not the caller's working tree.
+set -euo pipefail
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_PREFIX GIT_COMMON_DIR
+root="$(git rev-parse --show-toplevel)"
+zero="0000000000000000000000000000000000000000"
+worktree=""
+cleanup() {
+  local code=$?
+  if [ -n "$worktree" ]; then
+    git -C "$root" worktree remove --force "$worktree" || code=1
+  fi
+  exit "$code"
+}
+trap cleanup EXIT
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue
+  mkdir -p "$root/.claude/worktrees"
+  worktree="$(mktemp -d "$root/.claude/worktrees/pre-push.XXXXXX")"
+  git -C "$root" worktree add --detach --quiet "$worktree" "$local_sha"
+  printf '[hook:pre-push:start] commit=%s\n' "$local_sha" >&2
+  SHERPA_SKIP_RELEASE=0 bash "$worktree/scripts/check-all.sh"
+  git -C "$root" worktree remove --force "$worktree"
+  worktree=""
+  printf '[hook:pre-push:success] commit=%s\n' "$local_sha" >&2
+done

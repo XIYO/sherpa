@@ -1,0 +1,57 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# 잡은 저장소를 읽기만 한다. 트리거는 push(main)·pull_request·workflow_dispatch 뿐이고
+# pull_request_target 은 쓰지 않는다 — 외부 PR 의 코드가 저장소 권한으로 돌지 않게 한다.
+# 시크릿은 잡에 넘기지 않는다.
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # CI 가 돌리는 것은 이 잡 하나다. macOS 게이트(scripts/check-all.sh)는 CI 에서 돌지 않는다. 병합 전에
+  # macOS 에서 직접 돌려 exit 0 을 확인한다(AGENTS.md).
+  #
+  # CLI 는 macOS 전용이지만 SessionStart 훅은 Windows 의 Claude Code 도 돌린다. macOS 게이트가 돌리는
+  # 것과 같은 verify_session_start.py 를 GitHub-hosted Windows 러너(Git Bash + python)에서 태운다.
+  # 진입점은 check-windows.ps1 이다. 이 검사는 Git Bash 를 전제로 한다(Git for Windows 가 깔린 러너). Windows 기기에서 `bash` 라는 이름은
+  # WSL 실행기(System32\bash.exe, Store alias WindowsApps\bash.exe)를 가리킬 수 있어서, 검사는 후보를
+  # 실행해 $OSTYPE 이 msys·cygwin 인 것만 고른다.
+  windows-hook:
+    name: Windows hook gate
+    runs-on: windows-latest
+    steps:
+      # 사용자의 Windows 클론과 같은 CRLF 체크아웃(Git for Windows 기본값)을 만들려고 러너의 전역 git
+      # 설정을 맞춘다.
+      - name: Set core.autocrlf for a CRLF checkout
+        shell: pwsh
+        run: git config --global core.autocrlf true
+
+      # 토큰은 체크아웃에 남기지 않는다.
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          clean: true
+          persist-credentials: false
+
+      # 훅이 기대는 사실들을 기록으로 남긴다 — 어떤 이름의 python 과 bash 가 있는지,
+      # 체크아웃된 셸 스크립트의 줄 끝이 무엇인지.
+      - name: Show toolchain
+        shell: pwsh
+        run: |
+          $PSVersionTable.PSVersion.ToString()
+          Get-Command -Name python3, python, py, bash, git -All -ErrorAction SilentlyContinue | Format-Table -AutoSize Name, Source
+          git config --show-origin --get-all core.autocrlf
+          git ls-files --eol plugins/sherpa/hooks plugins/sherpa/scripts/require-cli.sh plugins/sherpa/cli-contract.json
+
+      - name: Run plugin check
+        shell: pwsh
+        run: ./plugins/sherpa/scripts/check-windows.ps1

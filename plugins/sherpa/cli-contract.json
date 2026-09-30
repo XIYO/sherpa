@@ -1,0 +1,8 @@
+{
+  "command": "sherpa",
+  "minimumVersion": "0.7.1",
+  "versionArgs": ["--version"],
+  "versionPattern": "^sherpa ([0-9]+\\.[0-9]+\\.[0-9]+)$",
+  "install": "brew install xiyo/tap/sherpa",
+  "note": "스킬은 CLI 명령을 호출한다. 같은 MAJOR 안에서 CLI가 minimumVersion 이상이어야 한다. CLI가 호환을 깨면 MAJOR를 올리고, 스킬은 minimumVersion만 올린다."
+}

@@ -1,0 +1,138 @@
+---
+uuid: 01a0f252-d266-7311-bd25-486f59b094a3
+type: guide
+audience: "Claude Code나 Codex에서 Sherpa 플러그인과 CLI를 설치하려는 Mac 사용자"
+goal: "CLI와 플러그인 진입점 하나를 설치하고 첫 요청을 실행하며 어떤 데이터가 로컬에 남는지 알게 한다"
+tone: "사용자에게 쓰는 합니다체. 단계 앞에 요구 조건을 먼저 밝힌다"
+manner: "결과 → 설치 → 선행 조건 → 첫 사용 → 검증 → 데이터 경계 → 제한 순서를 지킨다"
+---
+
+# Sherpa
+
+[English](README.md)
+
+Sherpa는 플래닝 의도를 내 Mac 안에서 처리하는, 범위가 정해지고 증거를 확인하는
+작업으로 바꿉니다. 네이티브 `sherpa` CLI로 Calendar, Reminders, Mail, iMessage,
+KakaoTalk을 읽고, 변경을 제안하고, 정확한 내용을 확인받은 다음에만 실행합니다.
+명시적으로 보내는 것 말고는 이 컴퓨터를 벗어나지 않습니다.
+
+## 설치
+
+플러그인은 스킬만 담고 있습니다. CLI를 먼저 설치하세요.
+
+```bash
+brew install xiyo/tap/sherpa
+sherpa --version
+```
+
+```bash
+claude plugin marketplace add https://github.com/XIYO/sherpa.git
+claude plugin install sherpa@sherpa
+```
+
+```bash
+codex plugin marketplace add https://github.com/XIYO/sherpa.git
+codex plugin add sherpa@sherpa
+```
+
+공용 카탈로그 `XIYO/plug-hole`도 같은 플러그인을 `sherpa@xiyo`로 담고 있습니다.
+
+```bash
+claude plugin marketplace add https://github.com/XIYO/plug-hole.git
+claude plugin install sherpa@xiyo
+```
+
+**두 진입점 중 하나만 설치하세요.** 카탈로그 항목은 이 저장소의
+`plugins/sherpa/`를 가리키는 `git-subdir` 소스라서 두 경로가 같은 파일을
+가져옵니다 — 어느 쪽으로 설치하든
+`https://github.com/XIYO/sherpa.git`를 클론합니다. Claude Code는 스킬 이름을
+마켓플레이스가 아니라 플러그인 이름만으로 짓습니다. 그래서 `sherpa`를 두 벌
+설치하면 같은 이름의 스킬 다섯 개와 같은 SessionStart 훅이 겹칩니다. 각각
+하나만 남고, 세션은 어느 쪽이 남았는지 알려주지 않으며, 남은 것이 더 새 버전이라는
+보장도 없습니다. 이미 둘 다 설치했다면 한쪽을 지웁니다 —
+`claude plugin uninstall sherpa@xiyo`.
+
+새 세션이 스킬을 불러옵니다. 스킬은 세션 시작 시점의 스냅샷에서 불러오므로 열린
+세션은 이미 실은 판을 계속 씁니다.
+
+## 선행 조건
+
+- macOS 14 이상, Apple silicon
+- Calendar와 Reminders 권한 — 처음 읽을 때 요청합니다
+- Mail과 iMessage를 위한 호스트 애플리케이션의 전체 디스크 접근 권한
+- 로컬 KakaoTalk 읽기를 위한 공식 `kakaocli` 실행 파일
+
+## 첫 사용
+
+평소 말로 요청하면 `sherpa` 스킬이 알맞은 곳으로 보냅니다.
+
+```text
+오늘 일정과 할 일을 정리해줘.
+새 메시지에서 일정 후보를 찾아줘.
+```
+
+스킬 다섯 개가 일을 나눠 맡습니다.
+
+| 스킬 | 담당 |
+|---|---|
+| `sherpa` | 진입점. 의도를 라우팅하고 증거 루프를 돌립니다. |
+| `planner` | 검증된 제안과 readback을 거치는 Calendar와 Reminders. |
+| `context` | 범위가 정해진 Mail·iMessage·KakaoTalk 읽기, 약속과 후보 추출. |
+| `kakaotalk-local-search` | 로컬 KakaoTalk 텍스트 — 키워드 검색, 한 방 히스토리, 날짜 아카이브. |
+| `agent-messenger` | 상류 CLI로 처리하는 서버 기반 KakaoTalk·Discord·iMessage·Instagram. |
+
+## 검증
+
+```bash
+ls -d ~/.claude/plugins/cache/sherpa/sherpa/*/
+bash "$(ls -d ~/.claude/plugins/cache/sherpa/sherpa/*/ | sort -V | tail -1)/scripts/require-cli.sh"
+```
+
+플러그인 경로를 출력하는 명령은 없습니다. `claude plugin --help`(2.1.278)에
+`path` 하위 명령이 없고 `codex plugin --help`(codex-cli 0.155.1)에도 없습니다.
+설치 캐시가 곧 경로입니다. 첫 줄은 캐시된 버전을 보여줍니다 — Claude 설정
+디렉터리가 `~/.claude`가 아니라면 그 경로로 바꿔 쓰세요. 둘째 줄은 그중 가장 새
+버전을 실행합니다. 버전이 둘 이상 캐시된 상태에서 `bash …/*/scripts/require-cli.sh`
+라고만 쓰면 첫 번째 것만 실행되고 나머지는 그 스크립트의 인자로 넘어갑니다.
+
+`{"status":"ready", ...}`면 설치된 CLI가 계약을 만족합니다. `mismatch`는 설치된
+버전과 요구 버전을 함께 알려주고, `missing`은 `PATH`에 CLI가 없다는 뜻입니다.
+macOS가 아닌 곳에서는 가드가 CLI를 찾아보지 않고 `unsupported`
+(`"reason":"macos_only"`)를 답하며, 설치 명령을 권하지 않습니다.
+
+## 버전 계약
+
+플러그인과 CLI는 한 저장소에 있지만 컴퓨터에 도착하는 경로가 다릅니다. 스킬은
+`plugin install`로, CLI는 Homebrew로 들어옵니다. 두 설치를 맞춰 주는 장치가
+없으므로 버전이 어긋날 수 있습니다. 중요한 제약은 `cli-contract.json` 하나에 담았습니다 — 이
+스킬들이 요구하는 최소 CLI 버전, 같은 MAJOR 안에서. CLI를 호출하는 모든 스킬은
+첫 명령 전에 `scripts/require-cli.sh`를 실행합니다. 그래서 낡은 CLI는 작업
+중간에 깨지는 대신 명확한 메시지와 함께 멈춥니다.
+
+## 데이터 경계
+
+읽기는 명시한 개수와 체크포인트로 범위가 정해지고, 모든 결과는 자기 커버리지를
+함께 보고합니다. 로컬 KakaoTalk 읽기는 동기화된 텍스트만 다룹니다 — 첨부는
+읽지 못하고, 서버에 더 없다는 증거도 되지 못합니다. 이 체크포인트는 Agent
+Messenger 체크포인트와 분리되어 있고 분석을 마친 뒤에만 커밋됩니다.
+
+보내는 메시지와 메일은 먼저 초안을 만들고, 정확한 수신자와 내용을 승인받은
+다음에만 발송합니다. Calendar와 Reminders 변경도 같은 확인 경계를 지납니다.
+Sherpa는 불투명 참조만 돌려주며 제공자의 네이티브 식별자는 넘기지 않습니다.
+
+## 제한 사항
+
+- macOS 전용입니다. Windows와 Linux의 Claude Code도 SessionStart 훅은 실행하지만
+  거기서는 훅이 침묵하고, 스킬을 부르면 가드의 `unsupported` 응답에서 멈춥니다.
+  저장소의 Windows 검사는 매니페스트와 그 훅만 확인하고 나머지는 건너뜁니다.
+- `sherpa`는 어떤 서비스의 완전한 아카이브도 아닙니다.
+- CLI는 함께 묶이지 않습니다. 플러그인을 올려도 CLI는 올라가지 않습니다.
+
+## 개발
+
+플러그인은 `plugins/sherpa/`에, CLI는 `apple/eventkit-service` Swift 패키지에
+있습니다. 둘 다 이 저장소에서 배포합니다.
+
+```bash
+bash scripts/check-all.sh
+```

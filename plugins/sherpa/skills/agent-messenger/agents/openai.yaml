@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Messenger"
+  short_description: "Read and send messages through agent-messenger CLIs"
+  default_prompt: "Use $agent-messenger to read my recent KakaoTalk, Discord, iMessage, or Instagram messages."

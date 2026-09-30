@@ -1,0 +1,41 @@
+{
+  "name": "sherpa",
+  "version": "0.7.7+codex.20260930230900",
+  "description": "Agent workflows for the deterministic Sherpa macOS orchestration CLI.",
+  "author": {
+    "name": "XIYO",
+    "url": "https://github.com/XIYO"
+  },
+  "homepage": "https://github.com/XIYO/sherpa",
+  "repository": "https://github.com/XIYO/sherpa",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "calendar",
+    "reminders",
+    "mail",
+    "imessage",
+    "kakaotalk",
+    "context",
+    "macos"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Sherpa",
+    "shortDescription": "Deterministic local orchestration for agent workflows",
+    "longDescription": "Turns user intent into validated Sherpa CLI requests, evaluates machine-readable evidence, and continues or stops the agent loop without bypassing Sherpa's safety boundaries.",
+    "developerName": "XIYO",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Analyze",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/XIYO/sherpa",
+    "defaultPrompt": [
+      "오늘 일정과 할 일을 정리해줘.",
+      "새 메시지에서 일정 후보를 찾아줘.",
+      "최근 카카오톡 대화에서 약속을 찾아줘."
+    ]
+  }
+}

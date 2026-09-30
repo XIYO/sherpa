@@ -1,0 +1,4 @@
+interface:
+  display_name: "KakaoTalk Local Reader"
+  short_description: "Read local KakaoTalk text with safe checkpoints"
+  default_prompt: "Use $kakaotalk-local-search to read synchronized KakaoTalk text from a date and commit its local checkpoint after analysis."

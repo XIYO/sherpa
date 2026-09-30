@@ -1,0 +1,16 @@
+{
+  "name": "sherpa",
+  "owner": {
+    "name": "XIYO"
+  },
+  "metadata": {
+    "description": "Sherpa agent skills for the native macOS CLI."
+  },
+  "plugins": [
+    {
+      "name": "sherpa",
+      "source": "./plugins/sherpa",
+      "description": "Sherpa CLI로 macOS Calendar·Reminders·Mail·iMessage·KakaoTalk를 다루는 로컬 우선 플래닝·컨텍스트 워크플로."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "sherpa",
+  "version": "0.7.7",
+  "description": "Agent workflows for the deterministic Sherpa macOS orchestration CLI.",
+  "author": {
+    "name": "XIYO",
+    "url": "https://github.com/XIYO"
+  },
+  "homepage": "https://github.com/XIYO/sherpa",
+  "repository": "https://github.com/XIYO/sherpa",
+  "license": "MIT",
+  "keywords": [
+    "agent",
+    "calendar",
+    "reminders",
+    "mail",
+    "imessage",
+    "kakaotalk",
+    "context",
+    "macos",
+    "claude-code"
+  ]
+}
