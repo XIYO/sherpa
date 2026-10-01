@@ -58,31 +58,27 @@ manner: "단계마다 필요한 승인과 선행 단계를 적고 절차는 릴�
   대조했다. sha256 `70c4cb18b4e3ce3e58f92c88844a05a898cb17c7af5f3b3e6ba2812558aa7a48`. 같은 실행의
   `target/dist/Formula/sherpa.rb` 가 그 해시를 박고 있다. 이 폴더는 다시 만들지 않는다 — Swift 빌드가 비결정적이라
   다른 실행의 해시는 다르다.
-- **공개 tap.** 원격 `main` 은 아직 Formula 0.2.1(7c4e2d6)이다. 0.7.1 Formula 와 README 는 위 worktree 에
-  커밋되지 않은 변경으로 있다(`Formula/sherpa.rb` 29줄, `README.md` 44줄). diff 에 비공개 문자열 0건.
-  `brew style` 은 tap 밖 경로로 실행해 Style/Documentation·FrozenStringLiteralComment 와 옛 로컬 tap 의
-  같은 클래스에서 오는 Lint/DuplicateMethods 만 냈다. `brew audit` 은 경로 인자를 받지 않아 돌리지 못했다 —
-  tap 에 들어간 뒤 `brew audit --formula xiyo/tap/sherpa` 로 한다. Formula 변경은 url·version·sha256 밖에도
+- **공개 tap.** `XIYO/homebrew-tap` `main` 이 0.7.1 Formula 와 새 README 를 갖는다(81958e6, 이어서 8692f83 이
+  중복 `version` 줄을 뺐다). `brew audit --formula xiyo/tap/sherpa` 가 통과한다. Formula 변경은 url·sha256 밖에도
   미친다(desc·homepage·arch·caveats·test 블록) — 템플릿이 0.2.1 때와 다르기 때문이고 런북이 허용한 경우다.
+  `version` 줄은 템플릿 결함이었다: Homebrew 가 url 의 아카이브 이름에서 판을 읽으므로 audit 이 redundant 로
+  거부한다. 이 브랜치가 `package.sh` 템플릿과 `check-release.sh`(url 에서 판을 읽고 audit 을 스모크에 넣음)를 고친다.
 - **보관.** 옛 저장소는 `XIYO/sherpa-archive` 로 이름을 바꿔 비공개로 archive 한다(이름은 지휘 세션이 정했다).
   옛 PR·이슈·Actions 기록은 거기 남는다. 옛 저장소의 self-hosted Windows 러너 등록은 그대로다. 등록 해제는
   소유자 승인 사항이다. 로컬 `sherpa-archive` clone 의 `release/sherpa-0.7.7` 은 원격보다 커밋 1개 앞서 있고
   push 하지 않았다.
-- **이 Mac 의 CLI 설치본**은 원격 없는 옛 로컬 tap `xiyo/package-hole` 의 0.7.1 이고 0.7.0 keg 도 남아 있다.
+- **이 Mac 의 CLI 설치본**은 공개 tap `xiyo/tap` 의 0.7.1 이다(`brew info` 의 tap 이 `xiyo/tap`, keg 하나, pinned 는
+  옛 설치처럼 유지). 옛 로컬 tap `xiyo/package-hole` 은 untap 했다. `brew test sherpa` 통과.
+- **마켓플레이스와 플러그인.** 두 기기의 모든 Claude 프로필과 Codex 홈이 새 이력의 마켓플레이스에서 0.7.7 을 받았다
+  (맥 `sherpa@sherpa`, able-tei `.claude` 의 `sherpa@xiyo`; Windows 의 다른 프로필은 `macos_only` skip).
 - **옛 front matter 키**(id·title·status·owner)가 문서 22개에 남아 있다. ADR·RFC 의 `status` 값은 정보를 담고
   있어 처분이 미결이다.
 
 ## Next
 
-1. 허브가 tap worktree 의 diff 를 보고 `release/sherpa-071` 을 커밋해 `XIYO/homebrew-tap` `main` 에 올린다.
-   올린 뒤 `brew audit --formula xiyo/tap/sherpa` 한 번.
-2. 이 Mac 에서 `brew uninstall sherpa` 뒤 `brew install xiyo/tap/sherpa` 로 옮기고 `brew untap xiyo/package-hole`
-   한다. 런북 "Verification" 의 네 명령으로 확인한다.
-3. 각 프로필의 `sherpa` 마켓플레이스가 새 이력에서 갱신되는지 보고, 실패하면 다시 추가한다. 플러그인을 0.7.7 로
-   올린다(프로필 목록과 명령은 plug-hole `AGENTS.md` 의 "릴리스를 기기에 적용하기").
-4. 옛 front matter 키가 남은 22개 문서를 정리한다.
-5. tap 의 미리보기 worktree `.claude/worktrees/sherpa-071-preview` 와 브랜치를 지운다(로컬만).
+1. 이 PR(템플릿 수정과 이 인계)의 Windows CI 가 통과하면 손으로 병합한다(AGENTS 의 병합 규칙).
+2. 옛 front matter 키가 남은 22개 문서를 정리한다.
 
 ## Blocked
 
-- 1 은 허브 세션만 한다 — 이 작업자는 tap 을 커밋·push 하지 않는다.
+- 옛 저장소 `XIYO/sherpa-archive` 의 self-hosted Windows 러너 등록 해제는 소유자 승인 사항이다.

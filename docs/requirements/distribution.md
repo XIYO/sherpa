@@ -39,8 +39,9 @@ Sherpa operation after the CLI is installed.
   distribution artifact.
 - `FR-DP-004`: The archive carries exactly one file, the executable, and the
   packager refuses to build one that carries anything else. The generated
-  Formula pins the archive SHA-256, and the version it declares is read back
-  from the built binary rather than written by hand.
+  Formula pins the archive SHA-256, and the version in the archive name it
+  references — the one Homebrew scans, since the Formula carries no `version`
+  line — is read back from the built binary rather than written by hand.
 - `FR-DP-005`: The CLI does not register, update, or remove agent plugins on
   any host. This repository publishes its own plugin marketplace at
   `.claude-plugin/marketplace.json` and `.agents/plugins/marketplace.json`, and
