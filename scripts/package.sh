@@ -74,6 +74,10 @@ if [ "${1:-}" = "--publish" ]; then
   log info publish "asset verified at $TAG; copy Formula/sherpa.rb into XIYO/homebrew-tap"
 fi
 
+# Formula 에 `version` 줄을 넣지 않는다. Homebrew 는 url 의 아카이브 이름
+# (sherpa-<version>-aarch64-apple-darwin.tar.gz)에서 판을 읽고, 같은 값을 명시하면
+# `brew audit` 이 "redundant with version scanned from URL" 로 거부한다(0.7.1 tap 에서 실측).
+# 두 url 모두 같은 아카이브 이름을 가리키므로 두 판 다 같은 판을 읽는다.
 render_formula() {
   local url="$1" destination="$2"
   mkdir -p "${destination%/*}"
@@ -82,7 +86,6 @@ class Sherpa < Formula
   desc "Local-first planning and context orchestrator for macOS"
   homepage "https://github.com/$RELEASE_REPOSITORY"
   url "$url"
-  version "$version"
   sha256 "$checksum"
   license "MIT"
 
@@ -105,7 +108,7 @@ class Sherpa < Formula
   end
 
   test do
-    # 스킬의 버전 가드가 이 출력 형식에 기댄다.
+    # 스킬의 버전 가드가 이 출력 형식에 기댄다. version 은 Homebrew 가 url 에서 읽은 값이다.
     assert_equal "sherpa #{version}", shell_output("#{bin}/sherpa --version").strip
     assert_match "sherpa kakaotalk archive", shell_output("#{bin}/sherpa --help")
   end

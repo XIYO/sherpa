@@ -11,6 +11,13 @@ manner: "버전별로 Added·Changed·Fixed 를 나누고 긴 실측 근거는 l
 
 ## [Unreleased]
 
+### Fixed
+
+- `scripts/package.sh` 가 렌더하는 Homebrew Formula 에서 `version` 줄을 뺀다. Homebrew 는 url 의
+  아카이브 이름에서 판을 읽고, 같은 값을 명시하면 `brew audit` 이 "redundant with version scanned
+  from URL" 로 거부했다(0.7.1 공개 tap 실측). 릴리스 스모크(`scripts/check-release.sh`)는 판을 url 에서
+  읽고 `version` 줄이 생기면 `formula_version_line_redundant` 로 거부한다.
+
 ## [0.7.7] - 2026-09-30
 
 ### Changed

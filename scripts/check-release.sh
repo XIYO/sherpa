@@ -68,6 +68,13 @@ diff <(grep -v '^  url "' "$rendered") <(grep -v '^  url "' "$published") >/dev/
 grep -Eq '^  url "https://github\.com/XIYO/sherpa/releases/download/v[0-9]+\.[0-9]+\.[0-9]+/sherpa-[0-9]+\.[0-9]+\.[0-9]+-aarch64-apple-darwin\.tar\.gz"$' "$published" \
   || fail failure "reason=published_url_unexpected"
 
+# Homebrew 는 url 의 아카이브 이름에서 판을 읽는다. `version` 줄을 함께 적으면 `brew audit` 이
+# 공개 tap 에서 "redundant with version scanned from URL" 로 거부한다(0.7.1 실측). 판은 그 url 에서 읽는다.
+! grep -q '^  version "' "$published" \
+  || fail failure "reason=formula_version_line_redundant"
+expected_version="$(sed -n 's#^  url ".*/sherpa-\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\)-aarch64-apple-darwin\.tar\.gz"$#\1#p' "$rendered" | head -1)"
+[ -n "$expected_version" ] || fail failure "reason=formula_version_unreadable"
+
 # A fresh tap and formula name isolates concurrent checks and existing installs.
 [ ! -d "$(brew --repository "$SMOKE_TAP")" ] \
   || fail failure "reason=smoke_tap_exists"
@@ -79,6 +86,11 @@ mkdir -p "$smoke_root/Formula"
 sed "s/^class Sherpa < Formula$/class SherpaSmoke$$ < Formula/" "$rendered" \
   > "$smoke_root/Formula/$SMOKE_FORMULA.rb"
 
+# 공개 tap 이 받는 것과 같은 심사. `brew audit` 은 경로를 받지 않아 tap 에 넣은 뒤에만 돌 수 있고,
+# 중복 `version` 줄 같은 템플릿 결함은 설치·test 로는 드러나지 않는다.
+brew audit --formula "$SMOKE_TAP/$SMOKE_FORMULA" > "$SMOKE_DIST/audit.log" 2>&1 \
+  || { cat "$SMOKE_DIST/audit.log" >&2; fail failure "reason=formula_audit_failed"; }
+
 # Mark ownership before install so a partial installation is cleaned too.
 SMOKE_INSTALLED=1
 brew install --formula --skip-link "$SMOKE_TAP/$SMOKE_FORMULA" > "$SMOKE_DIST/install.log" 2>&1 \
@@ -89,7 +101,6 @@ brew test --force "$SMOKE_TAP/$SMOKE_FORMULA" > "$SMOKE_DIST/test.log" 2>&1 \
 # 4. 설치본이 실제로 이 릴리스인지, 그리고 딴것이 섞이지 않았는지 확인한다.
 prefix="$(brew --prefix "$SMOKE_FORMULA")"
 installed_version="$("$prefix/bin/sherpa" --version | awk '{print $2}')"
-expected_version="$(grep -m1 '^  version "' "$rendered" | sed 's/.*"\(.*\)".*/\1/')"
 [ "$installed_version" = "$expected_version" ] \
   || fail failure "reason=version_mismatch installed=$installed_version formula=$expected_version"
 

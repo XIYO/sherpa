@@ -36,7 +36,10 @@ Keep these objects distinct:
      `file://` URL, so it installs before anything is published. The release
      smoke and a local development tap use it.
 3. `brew install` or `brew upgrade` installs the version advertised by the
-   Formula in the tap.
+   Formula in the tap. The Formula carries no `version` line: Homebrew scans
+   the version from the archive name in `url`
+   (`sherpa-<version>-aarch64-apple-darwin.tar.gz`), and `brew audit` rejects
+   an explicit `version` that equals the scanned one as redundant.
 
 Homebrew does not inspect source changes to discover a newer version. A new
 release must bump the canonical version and publish the regenerated Formula
@@ -98,8 +101,8 @@ uploaded the archive; a Formula from any other run pins a different checksum.
    ```
 
    The status command must print nothing; stop and inspect any pre-existing
-   change instead of overwriting it. The diff must change only `url`,
-   `version`, and `sha256`, unless the Formula template itself changed.
+   change instead of overwriting it. The diff must change only `url` and
+   `sha256`, unless the Formula template itself changed.
 6. Let Homebrew perform the upgrade:
 
    ```bash
@@ -107,9 +110,9 @@ uploaded the archive; a Formula from any other run pins a different checksum.
    brew upgrade xiyo/tap/sherpa
    ```
 
-Do not hand-edit `version`, `url`, or `sha256` in the tap. The packager derives
-them together; copying the complete generated file prevents a
-version/archive/checksum split.
+Do not hand-edit `url` or `sha256` in the tap, and do not add a `version`
+line. The packager derives the archive name and checksum together; copying the
+complete generated file prevents a version/archive/checksum split.
 
 ## Verification
 
