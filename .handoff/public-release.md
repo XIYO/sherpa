@@ -62,7 +62,7 @@ manner: "단계마다 필요한 승인과 선행 단계를 적고 절차는 릴�
   중복 `version` 줄을 뺐다). `brew audit --formula xiyo/tap/sherpa` 가 통과한다. Formula 변경은 url·sha256 밖에도
   미친다(desc·homepage·arch·caveats·test 블록) — 템플릿이 0.2.1 때와 다르기 때문이고 런북이 허용한 경우다.
   `version` 줄은 템플릿 결함이었다: Homebrew 가 url 의 아카이브 이름에서 판을 읽으므로 audit 이 redundant 로
-  거부한다. 이 브랜치가 `package.sh` 템플릿과 `check-release.sh`(url 에서 판을 읽고 audit 을 스모크에 넣음)를 고친다.
+  거부한다. PR #1(949f3f8)이 `package.sh` 템플릿과 `check-release.sh`(url 에서 판을 읽고 audit 을 스모크에 넣음)를 고쳤다.
 - **보관.** 옛 저장소는 `XIYO/sherpa-archive` 로 이름을 바꿔 비공개로 archive 한다(이름은 지휘 세션이 정했다).
   옛 PR·이슈·Actions 기록은 거기 남는다. 옛 저장소의 self-hosted Windows 러너 등록은 그대로다. 등록 해제는
   소유자 승인 사항이다. 로컬 `sherpa-archive` clone 의 `release/sherpa-0.7.7` 은 원격보다 커밋 1개 앞서 있고
@@ -76,8 +76,7 @@ manner: "단계마다 필요한 승인과 선행 단계를 적고 절차는 릴�
 
 ## Next
 
-1. 이 PR(템플릿 수정과 이 인계)의 Windows CI 가 통과하면 손으로 병합한다(AGENTS 의 병합 규칙).
-2. 옛 front matter 키가 남은 22개 문서를 정리한다.
+1. 옛 front matter 키가 남은 22개 문서를 정리한다.
 
 ## Blocked
 
