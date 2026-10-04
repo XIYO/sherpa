@@ -18,6 +18,12 @@ manner: "버전별로 Added·Changed·Fixed 를 나누고 긴 실측 근거는 l
   from URL" 로 거부했다(0.7.1 공개 tap 실측). 릴리스 스모크(`scripts/check-release.sh`)는 판을 url 에서
   읽고 `version` 줄이 생기면 `formula_version_line_redundant` 로 거부한다.
 
+## [0.7.10] - 2026-10-05
+
+### Fixed
+
+- 두 README 의 검증 명령이 `sherpa` 마켓플레이스 캐시 경로에만 묶인 문제를 고쳤다. 이제 `sherpa` 와 `plug-hole` 어느 진입점에서도 CLI와 호스트의 플러그인 목록을 확인한다.
+
 ## [0.7.9] - 2026-10-05
 
 ### Fixed

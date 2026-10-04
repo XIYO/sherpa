@@ -84,21 +84,18 @@ claude plugin install sherpa@plug-hole
 ## 검증
 
 ```bash
-ls -d ~/.claude/plugins/cache/sherpa/sherpa/*/
-bash "$(ls -d ~/.claude/plugins/cache/sherpa/sherpa/*/ | sort -V | tail -1)/scripts/require-cli.sh"
+sherpa --version
+claude plugin list
 ```
 
-플러그인 경로를 출력하는 명령은 없습니다. `claude plugin --help`(2.1.278)에
-`path` 하위 명령이 없고 `codex plugin --help`(codex-cli 0.155.1)에도 없습니다.
-설치 캐시가 곧 경로입니다. 첫 줄은 캐시된 버전을 보여줍니다 — Claude 설정
-디렉터리가 `~/.claude`가 아니라면 그 경로로 바꿔 쓰세요. 둘째 줄은 그중 가장 새
-버전을 실행합니다. 버전이 둘 이상 캐시된 상태에서 `bash …/*/scripts/require-cli.sh`
-라고만 쓰면 첫 번째 것만 실행되고 나머지는 그 스크립트의 인자로 넘어갑니다.
+Codex에서는 설치한 스토어에 맞춰 `codex plugin list --marketplace sherpa` 또는
+`codex plugin list --marketplace plug-hole`을 실행합니다. 목록에서 Sherpa가
+설치·활성 상태인지 확인합니다. 새 세션은 macOS에서 번들 CLI 가드를 실행합니다.
+CLI가 준비됐으면 침묵하고, 버전이 다르면 `mismatch`와 두 버전을, 없으면
+`missing`을 알립니다. 각 스킬도 첫 CLI 명령 전에 같은 가드를 실행합니다.
 
-`{"status":"ready", ...}`면 설치된 CLI가 계약을 만족합니다. `mismatch`는 설치된
-버전과 요구 버전을 함께 알려주고, `missing`은 `PATH`에 CLI가 없다는 뜻입니다.
 macOS가 아닌 곳에서는 가드가 CLI를 찾아보지 않고 `unsupported`
-(`"reason":"macos_only"`)를 답하며, 설치 명령을 권하지 않습니다.
+(`"reason":"macos_only"`)를 답하며 설치 명령을 권하지 않습니다.
 
 ## 버전 계약
 
