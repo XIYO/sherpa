@@ -83,23 +83,19 @@ Five skills carry the work:
 ## Verify
 
 ```bash
-ls -d ~/.claude/plugins/cache/sherpa/sherpa/*/
-bash "$(ls -d ~/.claude/plugins/cache/sherpa/sherpa/*/ | sort -V | tail -1)/scripts/require-cli.sh"
+sherpa --version
+claude plugin list
 ```
 
-There is no command that prints a plugin's path: `claude plugin --help`
-(2.1.278) lists no `path` subcommand, and neither does `codex plugin --help`
-(codex-cli 0.155.1). The install cache is the path. The first line shows which
-versions are cached; substitute your own Claude configuration directory if it
-is not `~/.claude`. The second line runs the newest of them — a bare
-`bash …/*/scripts/require-cli.sh` would run only the first match and pass the
-others to it as arguments once more than one version is cached.
+For Codex, use `codex plugin list --marketplace sherpa` or
+`codex plugin list --marketplace plug-hole`, matching the store you installed.
+The list must show Sherpa as installed and enabled. A new session runs the
+bundled CLI guard on macOS. It stays silent when the CLI is ready; it names
+`mismatch` with both versions or `missing` when the CLI is absent. Each skill
+runs the same guard before its first CLI command.
 
-`{"status":"ready", ...}` means the installed CLI satisfies the contract.
-`mismatch` reports the installed and required versions; `missing` means no CLI
-is on `PATH`. On anything other than macOS the guard answers `unsupported`
-(`"reason":"macos_only"`) without looking for a CLI, and suggests no install
-command.
+On anything other than macOS the guard answers `unsupported`
+(`"reason":"macos_only"`) without looking for a CLI or suggesting an install.
 
 ## Version contract
 
