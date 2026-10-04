@@ -27,12 +27,11 @@ manner: "항목마다 지금 선 근거를 적고 긴 기록은 live-evidence �
 
 ## State
 
-2026-09-29 기준.
+2026-10-05 기준.
 
-- **설치본.** 이 Mac 의 Claude 프로필 둘(`~/.claude` 와 두 번째 Claude 프로필)과 Codex 프로필 셋
-  (`.codex` 와 워커 프로필 둘)에 `sherpa@sherpa` 0.7.5 가 있고 brew CLI 는 0.7.1 이다. 각 프로필의 설치
-  목록과 `sherpa --version` 으로 확인했다. `sherpa@xiyo` 는 이 Mac 의 어느 프로필에도 없다. Windows
-  기기는 이 세션이 보지 않았다.
+- **설치본.** 이 Mac 의 Claude 프로필 둘과 Codex 프로필 넷에 `sherpa@sherpa` 0.7.8 이 있다.
+  brew CLI 는 0.7.1 이다. Windows 기본 Claude 프로필에는 `sherpa@plug-hole` 0.7.8 이 있다.
+  프로필 갱신 출력과 설치 목록, `sherpa --version` 으로 확인했다.
 - **0.7.1 의 기록 상태는 결정적 테스트로만 증명했다.** 실제 iMessage·Mail 전송과, 전송 뒤의 실제
   SQLite 쓰기 실패는 일으킨 적이 없다. 기록 실패 경로는 가짜 기록부로만 탔다(live-evidence 2026-09-29).
 - **검증 행렬의 `SR-CX-013` 은 "D stale" 이다**(`docs/testing/verification-matrix.md`). 0.7.1 이 다시
@@ -40,12 +39,9 @@ manner: "항목마다 지금 선 근거를 적고 긴 기록은 live-evidence �
 - **로그인된 세션에서 스킬 호출을 본 적이 없다.** 2026-09-29 이 Mac 의 로그인된 Claude Code 세션
   (두 번째 Claude 프로필)이 받은 스킬 목록에 `sherpa:*` 다섯이 실려 있다. 모델이 그중 하나를 실제로 부르는
   것은 Claude Code 에서도 Codex 에서도 보지 않았다.
-- **비 macOS 의 로그인된 세션 화면은 보지 않았다.** Windows 기기의 설치 캐시에서 훅은 빈 출력·exit 0,
-  가드는 `unsupported`·exit 1 이었다는 것까지다(Windows 기기를 다루는 세션의 보고, live-evidence 2026-09-21
-  "Installed plugin 0.7.3").
-- **Codex 가 SessionStart 훅을 등록·실행하는지 모른다.** `.codex-plugin/plugin.json` 에 hooks 키가
-  없다(2026-09-29 확인). 그 밖의 Codex 관측은 codex-cli 0.155.1/macOS 의 것이고 이 Mac 의 Codex 는 지금
-  0.159.0 이다.
+- **비 macOS 의 대화형 세션 화면은 보지 않았다.** Windows 기기의 로그인된 headless Claude Code 세션은
+  Sherpa 0.7.8 을 실었고 경고를 내지 않았다. 디버그 로그에는 조용한 `session-start.sh` 의 실행 줄이 없어,
+  그 훅이 실제 호출됐다는 실기 증거는 아니다(live-evidence 2026-10-05).
 - **Discord 이모지·스티커 명령**은 `agent-messenger@2.38.0` 에 있고 `--help` 가 exit 0 이라는 것까지다.
   실제 길드에서 목록·업로드·삭제를 실행한 적이 없다(live-evidence 2026-09-21).
 
@@ -54,7 +50,7 @@ manner: "항목마다 지금 선 근거를 적고 긴 기록은 live-evidence �
 1. 소유자가 고른 대화에 0.7.1 로 iMessage 한 통과 Mail 한 통을 명시 확인을 거쳐 보내고, 출력의
    `operation_id` 와 기록부의 `completed` 를 되읽는다.
 2. 로그인된 Claude Code 세션과 Codex 세션에서 `sherpa:planner` 로 읽기 요청 하나를 시켜 스킬 호출을 본다.
-3. Windows 기기에서 로그인된 Claude Code 세션을 열어 훅이 화면에 아무것도 띄우지 않는지 본다.
+3. Windows 기기에서 로그인된 대화형 Claude Code 세션을 열어 훅이 화면에 아무것도 띄우지 않는지 본다.
 4. `SR-CX-013` 을 지금의 프로세스 경계로 다시 검증하고 행렬의 상태를 고친다.
 
 ## Blocked
