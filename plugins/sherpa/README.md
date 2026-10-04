@@ -18,7 +18,7 @@ exact content. Nothing leaves the machine except what you explicitly send.
 
 ## Install
 
-The plugin is skills only. Install the CLI first.
+The plugin bundles skills and a SessionStart hook. Install the CLI first.
 
 ```bash
 brew install xiyo/tap/sherpa
@@ -35,11 +35,11 @@ codex plugin marketplace add https://github.com/XIYO/sherpa.git
 codex plugin add sherpa@sherpa
 ```
 
-The shared `XIYO/plug-hole` catalog carries the same plugin as `sherpa@xiyo`:
+The shared `XIYO/plug-hole` catalog carries the same plugin as `sherpa@plug-hole`:
 
 ```bash
 claude plugin marketplace add https://github.com/XIYO/plug-hole.git
-claude plugin install sherpa@xiyo
+claude plugin install sherpa@plug-hole
 ```
 
 **Install one entry point, not both.** The catalog entry is a `git-subdir`
@@ -49,7 +49,7 @@ either way. Claude Code names a skill after the
 plugin alone, never the marketplace, so two copies of `sherpa` expose the same
 five skill names and the same SessionStart hook. Only one of each survives, the
 session does not say which, and nothing guarantees it is the newer one. If both
-are already installed, remove one: `claude plugin uninstall sherpa@xiyo`.
+are already installed, remove one: `claude plugin uninstall sherpa@plug-hole`.
 
 A new session loads the skills. Skills load from a snapshot taken at session
 start, so an open session keeps the version it already loaded.
