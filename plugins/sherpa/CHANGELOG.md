@@ -18,6 +18,12 @@ manner: "버전별로 Added·Changed·Fixed 를 나누고 긴 실측 근거는 l
   from URL" 로 거부했다(0.7.1 공개 tap 실측). 릴리스 스모크(`scripts/check-release.sh`)는 판을 url 에서
   읽고 `version` 줄이 생기면 `formula_version_line_redundant` 로 거부한다.
 
+## [0.7.9] - 2026-10-05
+
+### Fixed
+
+- 두 README 의 공용 카탈로그 설치 ID 를 실제 `sherpa@plug-hole` 로 고쳤다. 옛 `sherpa@xiyo` 명령은 현재 카탈로그에서 실패한다. 플러그인에 SessionStart 훅이 포함된다는 설명도 바로잡았다.
+
 ## [0.7.8] - 2026-10-05
 
 ### Fixed

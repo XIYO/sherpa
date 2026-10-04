@@ -18,7 +18,7 @@ KakaoTalk을 읽고, 변경을 제안하고, 정확한 내용을 확인받은 �
 
 ## 설치
 
-플러그인은 스킬만 담고 있습니다. CLI를 먼저 설치하세요.
+플러그인은 스킬과 SessionStart 훅을 담고 있습니다. CLI를 먼저 설치하세요.
 
 ```bash
 brew install xiyo/tap/sherpa
@@ -35,11 +35,11 @@ codex plugin marketplace add https://github.com/XIYO/sherpa.git
 codex plugin add sherpa@sherpa
 ```
 
-공용 카탈로그 `XIYO/plug-hole`도 같은 플러그인을 `sherpa@xiyo`로 담고 있습니다.
+공용 카탈로그 `XIYO/plug-hole`도 같은 플러그인을 `sherpa@plug-hole`로 담고 있습니다.
 
 ```bash
 claude plugin marketplace add https://github.com/XIYO/plug-hole.git
-claude plugin install sherpa@xiyo
+claude plugin install sherpa@plug-hole
 ```
 
 **두 진입점 중 하나만 설치하세요.** 카탈로그 항목은 이 저장소의
@@ -50,7 +50,7 @@ claude plugin install sherpa@xiyo
 설치하면 같은 이름의 스킬 다섯 개와 같은 SessionStart 훅이 겹칩니다. 각각
 하나만 남고, 세션은 어느 쪽이 남았는지 알려주지 않으며, 남은 것이 더 새 버전이라는
 보장도 없습니다. 이미 둘 다 설치했다면 한쪽을 지웁니다 —
-`claude plugin uninstall sherpa@xiyo`.
+`claude plugin uninstall sherpa@plug-hole`.
 
 새 세션이 스킬을 불러옵니다. 스킬은 세션 시작 시점의 스냅샷에서 불러오므로 열린
 세션은 이미 실은 판을 계속 씁니다.
