@@ -9,6 +9,27 @@ manner: "Newest entry first; each entry names its device, build, commands, and e
 
 # Sherpa Owner-Operated Live Evidence
 
+## 2026-10-05 — Plugin 0.7.8 startup behavior (Codex 0.160.0 and Claude Code 2.1.289)
+
+On macOS, a fresh ephemeral Codex session loaded the installed plugin 0.7.8. A
+temporary `sherpa` executable on PATH answered `sherpa 0.0.1`. The session used
+the owner's configured hook trust bypass and no model tools. Its answer reported
+the startup warning and the installed version 0.0.1. This directly proves that
+Codex ran the plugin's SessionStart hook and delivered its context to the model.
+The real Homebrew CLI remained 0.7.1 and was not changed by the test.
+The probe invoked `codex exec --ephemeral --json --skip-git-repo-check
+--dangerously-bypass-hook-trust -C <scratch>` with the fake CLI first on PATH.
+
+On Windows, a logged-in headless Claude Code session loaded the enabled
+`sherpa@plug-hole` plugin 0.7.8 alongside `svelte-arch` 7.27.2. The latter's
+SessionStart hook reported a fixture version difference. Sherpa showed no
+warning, as its CLI is macOS-only. The debug log named the installed Sherpa
+version but did not name `session-start.sh`, so this observation does not by
+itself prove Sherpa's silent hook executed. The Windows hook CI did run the
+Sherpa script with ready, missing, mismatch, and unsupported fixtures and passed.
+The host probe used `claude -p` with `--output-format json --max-turns 1
+--debug hooks` from a disposable project.
+
 ## 2026-09-29 — Journaled send outcomes and the silent top-level failure (CLI 0.7.0 → 0.7.1)
 
 Run here, on this Mac (macOS 26.5.1, Swift 6.3.3), against a debug build of
