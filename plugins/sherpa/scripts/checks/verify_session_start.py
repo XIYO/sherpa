@@ -14,10 +14,8 @@ CLI 는 macOS 전용이지만 훅은 `hooks.json` 에 무조건 등록되어 Win
 돌린다. 그래서 이 검사는 Windows(Git Bash + python)에서도 돈다. 경로 구분자와 실행
 파일 위치를 단정하지 않고, python 도 이름이 아니라 이 검사를 돌리는 인터프리터로 고정한다.
 
-Windows 의 python 은 stdout 이 text mode 라 `print()` 가 `\\r\\n` 을 쓴다. bash `read` 는
-`\\n` 만 떼므로 `ready\\r` 이 `case` 의 어느 패턴에도 맞지 않아, 모든 상태가 "확인에
-실패" 문장으로 떨어졌다. 그 python 을 macOS 게이트에서도 흉내 내어 같은 상태를 한 번 더
-태운다.
+훅은 Python 없이 동작해야 한다. PATH 에 Python 이 없거나, 잘못된 이름만 있거나,
+출력이 CRLF 인 Python 이 있어도 같은 상태를 내는지 확인한다.
 
 플랫폼도 흉내 낸다. 가드는 `uname -s` 로 macOS 인지 보므로 가짜 `uname` 을 PATH 에 둔다.
 네 상태는 `Darwin` 으로 고정해 macOS 와 Windows 러너가 같은 것을 검사하게 하고, 비 macOS
@@ -46,7 +44,6 @@ install = contract["install"]
 SENTENCE_MISSING = "설치되어 있지 않습니다"
 SENTENCE_MISMATCH = "계약과 어긋납니다"
 SENTENCE_FALLBACK = "확인에 실패"
-SENTENCE_NO_PYTHON = "python"
 
 failures: list[str] = []
 
@@ -326,17 +323,14 @@ def exercise(python: str) -> None:
 
 exercise("plain")
 
-# 6. 줄 끝을 `\r\n` 으로 쓰는 python 에서도 같은 분기를 탄다.
+# 6. 줄 끝을 `\r\n` 으로 쓰는 Python 이 있어도 같은 분기를 탄다.
 exercise("crlf")
 
-# 7. python3 이라는 이름이 실행되지 않고 python 만 있는 기기에서도 같은 분기를 탄다.
+# 7. python3 이라는 이름이 실행되지 않고 python 만 있어도 같다.
 exercise("renamed")
 
-# 8. python 이 아예 없으면 판정을 읽을 수 없다. 그 사실을 말하고, 세션은 실패시키지 않는다.
-no_python = run(minimum, "absent")
-expect_sentence("absent/ready", no_python, SENTENCE_NO_PYTHON)
-if no_python.returncode != 0:
-    failures.append(f"absent/ready: hook exited {no_python.returncode}; it must never fail a session")
+# 8. Python 이 아예 없어도 네 상태를 모두 판정한다.
+exercise("absent")
 
 # 9. 비 macOS 에서는 CLI 가 있을 수 없다. 훅은 침묵하고 — 실행할 수 없는 brew 명령을 매 세션
 #    읽히지 않는다 — 가드는 스킬을 부를 때 "macOS 전용"이라고 답한다. 가짜 sherpa 가 있든 없든 같다.

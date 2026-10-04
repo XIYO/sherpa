@@ -46,7 +46,6 @@ manner: "항목마다 지금 선 근거를 적고 긴 기록은 live-evidence �
 - **Codex 가 SessionStart 훅을 등록·실행하는지 모른다.** `.codex-plugin/plugin.json` 에 hooks 키가
   없다(2026-09-29 확인). 그 밖의 Codex 관측은 codex-cli 0.155.1/macOS 의 것이고 이 Mac 의 Codex 는 지금
   0.159.0 이다.
-- **`python3` → `python` 폴백**은 게이트의 흉내로만 탔다. 실기에서 폴백이 실행된 사례가 없다.
 - **Discord 이모지·스티커 명령**은 `agent-messenger@2.38.0` 에 있고 `--help` 가 exit 0 이라는 것까지다.
   실제 길드에서 목록·업로드·삭제를 실행한 적이 없다(live-evidence 2026-09-21).
 
