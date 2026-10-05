@@ -18,6 +18,13 @@ manner: "버전별로 Added·Changed·Fixed 를 나누고 긴 실측 근거는 l
   from URL" 로 거부했다(0.7.1 공개 tap 실측). 릴리스 스모크(`scripts/check-release.sh`)는 판을 url 에서
   읽고 `version` 줄이 생기면 `formula_version_line_redundant` 로 거부한다.
 
+## [0.7.11] - 2026-10-05
+
+### Changed
+
+- 플러그인의 설치 진입점을 `sherpa@plug-hole` 하나로 정리했다. Sherpa 저장소의 자체
+  마켓플레이스를 없애고 두 README 와 Homebrew 안내도 같은 ID 를 가리킨다.
+
 ## [0.7.10] - 2026-10-05
 
 ### Fixed

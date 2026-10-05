@@ -16,7 +16,7 @@ There is no Rust runtime, Cargo workspace, or Rust worker boundary.
 ## Build and test
 
 One gate covers everything — all three Swift packages, the `--version` format
-the plugin's guard parses, the agent plugin, and the marketplace manifests:
+the plugin's guard parses, and the agent plugin:
 
 ```bash
 bash scripts/check-all.sh
@@ -140,18 +140,18 @@ error.
 
 ## Agent skills
 
-The agent skills live in `plugins/sherpa/` and ship from this repository as its
-own plugin marketplace. They are not bundled into the CLI archive — installing
-the CLI does not install them, and vice versa:
+The agent skills live in `plugins/sherpa/` and are listed by the `plug-hole`
+marketplace. They are not bundled into the CLI archive — installing the CLI
+does not install them, and vice versa:
 
 ```bash
-claude plugin marketplace add https://github.com/XIYO/sherpa.git
-claude plugin install sherpa@sherpa
+claude plugin marketplace add https://github.com/XIYO/plug-hole.git
+claude plugin install sherpa@plug-hole
 ```
 
 ```bash
-codex plugin marketplace add https://github.com/XIYO/sherpa.git
-codex plugin add sherpa@sherpa
+codex plugin marketplace add https://github.com/XIYO/plug-hole.git
+codex plugin add sherpa@plug-hole
 ```
 
 Both halves come from this repository, but they reach a machine by different

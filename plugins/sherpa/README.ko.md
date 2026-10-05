@@ -26,31 +26,17 @@ sherpa --version
 ```
 
 ```bash
-claude plugin marketplace add https://github.com/XIYO/sherpa.git
-claude plugin install sherpa@sherpa
-```
-
-```bash
-codex plugin marketplace add https://github.com/XIYO/sherpa.git
-codex plugin add sherpa@sherpa
-```
-
-공용 카탈로그 `XIYO/plug-hole`도 같은 플러그인을 `sherpa@plug-hole`로 담고 있습니다.
-
-```bash
 claude plugin marketplace add https://github.com/XIYO/plug-hole.git
 claude plugin install sherpa@plug-hole
 ```
 
-**두 진입점 중 하나만 설치하세요.** 카탈로그 항목은 이 저장소의
-`plugins/sherpa/`를 가리키는 `git-subdir` 소스라서 두 경로가 같은 파일을
-가져옵니다 — 어느 쪽으로 설치하든
-`https://github.com/XIYO/sherpa.git`를 클론합니다. Claude Code는 스킬 이름을
-마켓플레이스가 아니라 플러그인 이름만으로 짓습니다. 그래서 `sherpa`를 두 벌
-설치하면 같은 이름의 스킬 다섯 개와 같은 SessionStart 훅이 겹칩니다. 각각
-하나만 남고, 세션은 어느 쪽이 남았는지 알려주지 않으며, 남은 것이 더 새 버전이라는
-보장도 없습니다. 이미 둘 다 설치했다면 한쪽을 지웁니다 —
-`claude plugin uninstall sherpa@plug-hole`.
+```bash
+codex plugin marketplace add https://github.com/XIYO/plug-hole.git
+codex plugin add sherpa@plug-hole
+```
+
+`plug-hole`은 이 저장소의 `plugins/sherpa/`에서 플러그인을 받습니다. CLI는
+Homebrew로 따로 설치합니다.
 
 새 세션이 스킬을 불러옵니다. 스킬은 세션 시작 시점의 스냅샷에서 불러오므로 열린
 세션은 이미 실은 판을 계속 씁니다.
@@ -88,8 +74,7 @@ sherpa --version
 claude plugin list
 ```
 
-Codex에서는 설치한 스토어에 맞춰 `codex plugin list --marketplace sherpa` 또는
-`codex plugin list --marketplace plug-hole`을 실행합니다. 목록에서 Sherpa가
+Codex에서는 `codex plugin list --marketplace plug-hole`을 실행합니다. 목록에서 Sherpa가
 설치·활성 상태인지 확인합니다. 새 세션은 macOS에서 번들 CLI 가드를 실행합니다.
 CLI가 준비됐으면 침묵하고, 버전이 다르면 `mismatch`와 두 버전을, 없으면
 `missing`을 알립니다. 각 스킬도 첫 CLI 명령 전에 같은 가드를 실행합니다.

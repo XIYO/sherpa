@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # 저장소 게이트. push 전과 CI 에서 같은 것을 돌린다.
 #
-# 이 저장소는 두 가지를 배포한다 — brew 로 나가는 네이티브 CLI 와,
-# plugin marketplace 로 나가는 에이전트 스킬. 게이트는 둘 다 본다.
+# 이 저장소는 brew 로 나가는 네이티브 CLI 와 plug-hole 에 등록된 에이전트
+# 플러그인을 배포한다. 게이트는 둘 다 본다.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
@@ -51,23 +51,11 @@ log info "check:swift:success" "packages=3 cli_version=$cli_version"
 SHERPA_BINARY="$binary" bash "$REPO_ROOT/plugins/sherpa/scripts/check.sh" \
   || fail "reason=plugin_check_failed"
 
-# 3. 두 마켓플레이스 매니페스트가 같은 플러그인을, 같은 순서로 담아야 한다.
-python3 - "$REPO_ROOT" <<'PY' || fail "reason=marketplace_mismatch"
-import json, sys, pathlib
-root = pathlib.Path(sys.argv[1])
-claude = json.loads((root / ".claude-plugin/marketplace.json").read_text())
-codex = json.loads((root / ".agents/plugins/marketplace.json").read_text())
-names = lambda d: [p["name"] for p in d["plugins"]]
-if names(claude) != names(codex):
-    raise SystemExit(f"order or membership differs: {names(claude)} vs {names(codex)}")
-if claude["name"] != codex["name"]:
-    raise SystemExit(f'marketplace name differs: {claude["name"]} vs {codex["name"]}')
-for entry in claude["plugins"]:
-    source = root / entry["source"]
-    if not (source / ".claude-plugin/plugin.json").is_file():
-        raise SystemExit(f'source has no manifest: {entry["source"]}')
-PY
-log info "check:marketplace:success" "manifests=2"
+# 3. 자체 카탈로그가 다시 생기면 같은 플러그인이 두 목록에 보인다.
+for catalog in "$REPO_ROOT/.claude-plugin/marketplace.json" "$REPO_ROOT/.agents/plugins/marketplace.json"; do
+  [ ! -e "$catalog" ] || fail "reason=duplicate_marketplace_present file=${catalog#"$REPO_ROOT/"}"
+done
+log info "check:marketplace:success" "source=plug-hole"
 
 # 4. 스킬이 요구하는 최소 CLI 버전이 이 체크아웃의 CLI 로 만족되는가.
 #    같은 저장소에서 나가는 둘이 서로 모순인 채 릴리스되는 것을 막는다.

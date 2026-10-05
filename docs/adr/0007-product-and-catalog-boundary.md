@@ -19,6 +19,11 @@ manner: "결정 본문은 고치지 않고 바뀐 사실은 정정으로 덧붙�
 > 공개하면서 CLI 설치의 정본은 공개 tap `XIYO/homebrew-tap` 의 `brew install xiyo/tap/sherpa`
 > 이고, Formula 는 이 저장소의 릴리스 자산을 가리킨다. 로컬 tap 은 개발용으로만 남는다 —
 > 절차는 [릴리스 런북](../testing/local-homebrew-release.md)에 있다. 결정은 그대로다.
+>
+> **정정 (2026-10-05).** 이 저장소의 자체 마켓플레이스는 중복 목록을 없애려고 내렸다.
+> 현재 플러그인 설치 ID 는 `sherpa@plug-hole` 하나다. 아래 `sherpa@sherpa` 경로와
+> 두 자체 매니페스트에 관한 내용은 당시의 결정·검증 기록이다. Sherpa 소스와 CLI
+> 릴리스가 이 저장소에 남고 Plug Hole 이 설치 목록만 갖는 경계는 그대로다.
 
 ## Context
 

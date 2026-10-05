@@ -26,30 +26,17 @@ sherpa --version
 ```
 
 ```bash
-claude plugin marketplace add https://github.com/XIYO/sherpa.git
-claude plugin install sherpa@sherpa
-```
-
-```bash
-codex plugin marketplace add https://github.com/XIYO/sherpa.git
-codex plugin add sherpa@sherpa
-```
-
-The shared `XIYO/plug-hole` catalog carries the same plugin as `sherpa@plug-hole`:
-
-```bash
 claude plugin marketplace add https://github.com/XIYO/plug-hole.git
 claude plugin install sherpa@plug-hole
 ```
 
-**Install one entry point, not both.** The catalog entry is a `git-subdir`
-source that points at `plugins/sherpa/` in this repository, so both routes
-deliver the same files — the install clones `https://github.com/XIYO/sherpa.git`
-either way. Claude Code names a skill after the
-plugin alone, never the marketplace, so two copies of `sherpa` expose the same
-five skill names and the same SessionStart hook. Only one of each survives, the
-session does not say which, and nothing guarantees it is the newer one. If both
-are already installed, remove one: `claude plugin uninstall sherpa@plug-hole`.
+```bash
+codex plugin marketplace add https://github.com/XIYO/plug-hole.git
+codex plugin add sherpa@plug-hole
+```
+
+`plug-hole` fetches the plugin from `plugins/sherpa/` in this repository. The
+CLI remains a separate Homebrew install.
 
 A new session loads the skills. Skills load from a snapshot taken at session
 start, so an open session keeps the version it already loaded.
@@ -87,8 +74,7 @@ sherpa --version
 claude plugin list
 ```
 
-For Codex, use `codex plugin list --marketplace sherpa` or
-`codex plugin list --marketplace plug-hole`, matching the store you installed.
+For Codex, use `codex plugin list --marketplace plug-hole`.
 The list must show Sherpa as installed and enabled. A new session runs the
 bundled CLI guard on macOS. It stays silent when the CLI is ready; it names
 `mismatch` with both versions or `missing` when the CLI is absent. Each skill

@@ -43,9 +43,9 @@ Sherpa operation after the CLI is installed.
   references — the one Homebrew scans, since the Formula carries no `version`
   line — is read back from the built binary rather than written by hand.
 - `FR-DP-005`: The CLI does not register, update, or remove agent plugins on
-  any host. This repository publishes its own plugin marketplace at
-  `.claude-plugin/marketplace.json` and `.agents/plugins/marketplace.json`, and
-  skills are installed with each host's own plugin command. The archive and the
+  any host. `XIYO/plug-hole` is the only marketplace for this repository's
+  `plugins/sherpa/` package, and skills are installed with each host's own
+  plugin command. The archive and the
   marketplace are separate delivery routes, so the plugin declares the minimum
   CLI version its skills require and each skill verifies it before its first
   command rather than requiring an exact CLI/plugin version pair.
