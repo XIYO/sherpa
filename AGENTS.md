@@ -9,6 +9,8 @@ manner: "규칙만 적고 근거는 ADR·live-evidence·스크립트 주석으�
 
 # Sherpa repository instructions
 
+- Publish the agent plugin only through `XIYO/plug-hole` as `sherpa@plug-hole`.
+  Keep its source and releases here without a repository marketplace.
 - This file is the single body of the repository instructions. `CLAUDE.md` holds
   only the `@AGENTS.md` import so that Claude Code sessions load the same text;
   add rules here, never there. It is an import rather than a symbolic link

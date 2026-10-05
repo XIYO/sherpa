@@ -29,9 +29,9 @@ manner: "항목마다 지금 선 근거를 적고 긴 기록은 live-evidence �
 
 2026-10-05 기준.
 
-- **설치본.** 이 Mac 의 Claude 프로필 둘과 Codex 프로필 넷에 `sherpa@sherpa` 0.7.8 이 있다.
-  brew CLI 는 0.7.1 이다. Windows 기본 Claude 프로필에는 `sherpa@plug-hole` 0.7.8 이 있다.
-  프로필 갱신 출력과 설치 목록, `sherpa --version` 으로 확인했다.
+- **설치 진입점.** 이 Mac 의 Claude 프로필 둘과 Codex 프로필 넷은 `sherpa@plug-hole`을 쓴다.
+  brew CLI 는 0.7.1 이다. Windows 기본 Claude 프로필도 같은 설치 ID 를 쓴다.
+  두 기기의 프로필·설치 목록을 되읽어 옛 `sherpa`·`xiyo` 마켓플레이스와 그 설치 ID 가 없음을 확인했다.
 - **0.7.1 의 기록 상태는 결정적 테스트로만 증명했다.** 실제 iMessage·Mail 전송과, 전송 뒤의 실제
   SQLite 쓰기 실패는 일으킨 적이 없다. 기록 실패 경로는 가짜 기록부로만 탔다(live-evidence 2026-09-29).
 - **검증 행렬의 `SR-CX-013` 은 "D stale" 이다**(`docs/testing/verification-matrix.md`). 0.7.1 이 다시

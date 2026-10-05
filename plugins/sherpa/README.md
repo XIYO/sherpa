@@ -25,6 +25,8 @@ brew install xiyo/tap/sherpa
 sherpa --version
 ```
 
+Your GitHub account needs access to the private `XIYO/plug-hole` repository.
+
 ```bash
 claude plugin marketplace add https://github.com/XIYO/plug-hole.git
 claude plugin install sherpa@plug-hole

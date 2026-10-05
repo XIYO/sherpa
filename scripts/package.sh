@@ -102,6 +102,7 @@ class Sherpa < Formula
       macOS may ask for Calendar, Reminders, or automation permission when used.
 
       Agent skills are not bundled with this CLI. Install them separately:
+      Your GitHub account needs access to the private XIYO/plug-hole repository.
         claude plugin marketplace add https://github.com/XIYO/plug-hole.git
         claude plugin install sherpa@plug-hole
     EOS

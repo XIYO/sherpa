@@ -18,6 +18,12 @@ manner: "버전별로 Added·Changed·Fixed 를 나누고 긴 실측 근거는 l
   from URL" 로 거부했다(0.7.1 공개 tap 실측). 릴리스 스모크(`scripts/check-release.sh`)는 판을 url 에서
   읽고 `version` 줄이 생기면 `formula_version_line_redundant` 로 거부한다.
 
+## [0.7.12] - 2026-10-05
+
+### Fixed
+
+- 설치 안내에 비공개 `XIYO/plug-hole` 저장소의 접근 권한이 필요하다는 조건을 밝혔다.
+
 ## [0.7.11] - 2026-10-05
 
 ### Changed

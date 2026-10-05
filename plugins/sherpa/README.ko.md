@@ -25,6 +25,8 @@ brew install xiyo/tap/sherpa
 sherpa --version
 ```
 
+GitHub 계정에 비공개 `XIYO/plug-hole` 저장소의 접근 권한이 필요합니다.
+
 ```bash
 claude plugin marketplace add https://github.com/XIYO/plug-hole.git
 claude plugin install sherpa@plug-hole
