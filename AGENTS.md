@@ -19,19 +19,20 @@ manner: "규칙만 적고 근거는 ADR·live-evidence·스크립트 주석으�
 - Read `docs/architecture/README.md` and the matching document under
   `docs/contracts/` before changing a worker boundary, canonical reference,
   domain model, or SQLite storage.
-- Read `.handoff/` first. Each open piece of work has one document there,
-  `.handoff/<topic>.md`, with its goal, the owner's decisions, what is true now,
-  what is not yet proven, and the next step; parked work lives under
-  `.handoff/parked/`. Historical probes and old code are not authority.
+- Unfinished work that must pass to another session lives in one root
+  `RESUME.md`: its goal, the owner's decisions, what is true now, what is not
+  yet proven, and the next step. Read it only when resuming that work, rewrite
+  its state instead of appending, and delete it when the work is done, because
+  a stale handoff reads as current truth. Do not create `.handoff/` or files
+  per topic. Historical probes and old code are not authority.
 - When deterministic or owner-operated evidence changes a fact, update the
   matching architecture or contract document, the implementation, the lint
-  rule, the relevant tests, and the handoff of that work in the same completed
-  change. Replace disproved guidance and record an unresolved fact, marked
-  unverified, in the `## State` of the handoff that owns it; do not rely on
-  chat memory.
+  rule, the relevant tests, and `RESUME.md` if it carries that work, in the
+  same completed change. Replace disproved guidance and record an unresolved
+  fact, marked unverified, in `RESUME.md`; do not rely on chat memory.
 - Classify every reproduced discovery before continuing dependent work: current
   behavior replaces the matching fact in the architecture, contract, or README
-  text, an open uncertainty enters the owning handoff's `## State`, and a
+  text, an open uncertainty enters `RESUME.md`, and a
   corrected or rejected path moves to the dated `docs/testing/live-evidence.md`
   history. Do not leave a reproduced observation only in chat, a terminal
   transcript, or a code comment, and do not duplicate stale current truth in
