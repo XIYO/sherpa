@@ -17,8 +17,7 @@ import sys
 root = pathlib.Path(sys.argv[1])
 targets = (
     sorted(root.glob("docs/**/*.md"))
-    + sorted(root.glob(".handoff/**/*.md"))
-    + [root / "README.md", root / "AGENTS.md"]
+    + [root / "README.md", root / "AGENTS.md", root / "RESUME.md"]
 )
 
 problems: list[str] = []
