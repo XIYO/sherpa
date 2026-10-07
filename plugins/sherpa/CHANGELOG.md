@@ -11,6 +11,13 @@ manner: "버전별로 Added·Changed·Fixed 를 나누고 긴 실측 근거는 l
 
 ## [Unreleased]
 
+## [0.7.13] - 2026-10-07
+
+### Changed
+
+- 다섯 스킬의 description 을 400~480자에서 250자 안팎으로 줄였다. description 은 Claude Code 세션마다 실리므로,
+  본문이 이미 맡는 소스 열거와 스킬 사이 경계 설명을 빼고 스킬을 가르는 단어(최근·과거·로컬·분석·일정)만 남겼다.
+
 ### Fixed
 
 - `scripts/package.sh` 가 렌더하는 Homebrew Formula 에서 `version` 줄을 뺀다. Homebrew 는 url 의

@@ -1,6 +1,6 @@
 ---
 name: sherpa
-description: Route natural-language requests through Sherpa and continue an evidence-based agent loop. Use for combined personal-assistant work involving calendar, reminders, communication-derived planning, local automation, or questions about which Sherpa workflow should run. A general request to review or update the user's plans includes fresh Mail, iMessage, and KakaoTalk context, with KakaoTalk images handled automatically.
+description: Route a personal-assistant request to the right Sherpa workflow and run its evidence-based command loop. Use for combined calendar, reminder and message-derived planning, a general planning review (플래닝해줘), or when unsure which Sherpa skill applies.
 ---
 
 # Sherpa

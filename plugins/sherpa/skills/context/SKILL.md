@@ -1,6 +1,6 @@
 ---
 name: context
-description: Use Sherpa to collect and analyze bounded KakaoTalk, iMessage, or Mail context, identify commitments and planning candidates, inspect source coverage, and send only explicitly confirmed supported replies. Trigger for reviewing recent messages or mail, finding requests and promises, extracting or refreshing plans, or continuing a prior context run. Agent Messenger reads include supported KakaoTalk images; user-selected local database reads cover text only.
+description: Use Sherpa to read bounded KakaoTalk, iMessage or Mail context from checkpoints, find commitments and planning candidates, check coverage, and send only confirmed replies. Trigger for reviewing recent messages or mail or extracting plans from them.
 ---
 
 # Sherpa Context

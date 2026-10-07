@@ -1,6 +1,6 @@
 ---
 name: kakaotalk-local-search
-description: Read bounded KakaoTalk text from the Mac's local database through Sherpa, including keyword search, one-room seven-day history, or all synchronized rooms from an explicit date with a local text checkpoint. Trigger for historical messages, local-first KakaoTalk review, or planning extraction when the user chooses kakaocli-backed reads. This is not a complete server archive, media reader, or sender.
+description: Read bounded KakaoTalk text from the Mac's local database through Sherpa, by keyword, one room's last seven days, or all synced rooms from a date with a local checkpoint. Trigger for historical or local-first KakaoTalk lookup. Text only; no media or sending.
 ---
 
 # KakaoTalk Local Search
