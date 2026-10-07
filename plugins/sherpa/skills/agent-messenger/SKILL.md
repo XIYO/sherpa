@@ -1,6 +1,6 @@
 ---
 name: agent-messenger
-description: Use Agent Messenger's direct CLI to read or send KakaoTalk, Discord, iMessage, or Instagram messages as the local user, and to inspect or change a Discord server's custom emoji and stickers. Trigger for recent conversations, channel activity, direct messages, chat lookup, explicitly approved replies on those services, or approved custom emoji and sticker uploads or deletions. Do not use for Sherpa-owned calendar, reminder, or mail work.
+description: Use the Agent Messenger CLI to read or send KakaoTalk, Discord, iMessage or Instagram messages as the local user, and to manage Discord custom emoji and stickers. Trigger for recent chats, DMs, channel activity, or approved replies. Not for calendar, reminders or mail.
 ---
 
 # Agent Messenger

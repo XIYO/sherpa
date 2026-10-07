@@ -1,6 +1,6 @@
 ---
 name: planner
-description: Use Sherpa to inspect and manage Apple Calendar and Reminders through validated proposals, confirmations, and readback, with natural Korean Event titles and notes. Trigger for schedules, appointments, time blocks, deadlines, reminders, checklists, planning candidates, or requests to create, update, complete, reopen, or delete them. For a general planning review, collect fresh Mail, iMessage, and the user-selected KakaoTalk source first; local KakaoTalk reads cover text only.
+description: Use Sherpa to inspect and change Apple Calendar and Reminders through proposals, confirmation and readback with natural Korean titles. Trigger for schedules, appointments, deadlines, reminders or checklists and creating, updating, completing or deleting them.
 ---
 
 # Sherpa Planner
